@@ -22,6 +22,7 @@ public class Tweet {
     private long uid;
     private String createdAt;
     private User user;
+    private ArrayList<String> media_urls;
 
     public String getBody() {
         return body;
@@ -29,6 +30,14 @@ public class Tweet {
 
     public long getUid() {
         return uid;
+    }
+
+    public ArrayList<String> getMedia_urls() {
+        if (media_urls == null) {
+            media_urls = new ArrayList<>();
+            media_urls.add("http://cdn.vrworld.com/wp-content/uploads/2015/08/android-for-wallpaper-8.png");
+        }
+        return media_urls;
     }
 
     public User getUser() {
@@ -46,6 +55,7 @@ public class Tweet {
             tweet.uid = jsonObject.getLong("id");
             tweet.createdAt = getRelativeTimeAgo(jsonObject.getString("created_at"));
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.media_urls = urlsFromJSONArray(jsonObject.getJSONObject("entities").getJSONArray("media"));
             if (tweet.uid < TimelineActivity.max_id) {
                 TimelineActivity.max_id = tweet.uid;
             }
@@ -74,6 +84,23 @@ public class Tweet {
             }
         }
         return tweets;
+    }
+
+    public static ArrayList<String> urlsFromJSONArray(JSONArray jsonArray) {
+        ArrayList<String> urls = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject media = jsonArray.getJSONObject(i);
+                if (media.getString("type") == "photo") {
+                    String url = jsonArray.getJSONObject(i).getString("media_url");
+                    urls.add(url);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return urls;
     }
 
     public static String getRelativeTimeAgo(String rawJsonDate) {
