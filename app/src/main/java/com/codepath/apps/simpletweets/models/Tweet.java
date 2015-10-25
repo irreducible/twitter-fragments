@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,13 +17,13 @@ import java.util.Locale;
 /**
  * Created by amore on 10/24/15.
  */
-public class Tweet {
+public class Tweet implements Serializable{
 
     private String body;
     private long uid;
     private String createdAt;
     private User user;
-    private ArrayList<String> media_urls;
+    private String mediaURL;
 
     public String getBody() {
         return body;
@@ -32,12 +33,8 @@ public class Tweet {
         return uid;
     }
 
-    public ArrayList<String> getMedia_urls() {
-        if (media_urls == null) {
-            media_urls = new ArrayList<>();
-            media_urls.add("http://cdn.vrworld.com/wp-content/uploads/2015/08/android-for-wallpaper-8.png");
-        }
-        return media_urls;
+    public String getMediaURL() {
+        return mediaURL;
     }
 
     public User getUser() {
@@ -55,7 +52,11 @@ public class Tweet {
             tweet.uid = jsonObject.getLong("id");
             tweet.createdAt = getRelativeTimeAgo(jsonObject.getString("created_at"));
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-            tweet.media_urls = urlsFromJSONArray(jsonObject.getJSONObject("entities").getJSONArray("media"));
+            if(jsonObject.has("entities")) {
+                if (jsonObject.getJSONObject("entities").getJSONArray("media").length() > 0) {
+                    tweet.mediaURL = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url");
+                }
+            }
             if (tweet.uid < TimelineActivity.max_id) {
                 TimelineActivity.max_id = tweet.uid;
             }
@@ -93,7 +94,7 @@ public class Tweet {
             try {
                 JSONObject media = jsonArray.getJSONObject(i);
                 if (media.getString("type") == "photo") {
-                    String url = jsonArray.getJSONObject(i).getString("media_url");
+                    String url = media.getString("media_url");
                     urls.add(url);
                 }
             } catch (JSONException e) {

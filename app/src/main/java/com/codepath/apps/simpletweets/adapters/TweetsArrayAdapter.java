@@ -44,8 +44,10 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
         ivProfileImage.setImageResource(android.R.color.transparent);
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
-        if (tweet.getMedia_urls().size() > 0) {
-            Picasso.with(getContext()).load(tweet.getMedia_urls().get(0)).into(ivMedia);
+
+        if (tweet.getMediaURL() != null) {
+            ivMedia.setVisibility(View.VISIBLE);
+            Picasso.with(getContext()).load(tweet.getMediaURL()).into(ivMedia);
         }
 
         return convertView;

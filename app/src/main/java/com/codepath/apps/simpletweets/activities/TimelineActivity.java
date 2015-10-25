@@ -1,11 +1,14 @@
 package com.codepath.apps.simpletweets.activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -61,6 +64,16 @@ public class TimelineActivity extends AppCompatActivity {
             public boolean onLoadMore(int page, int totalItemsCount) {
                 populateTimeline();
                 return true;
+            }
+        });
+
+        lvTweets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(TimelineActivity.this, DetailedViewActivity.class);
+                intent.putExtra("tweet", tweets.get(position));
+                startActivity(intent);
+                return false;
             }
         });
         populateTimeline();
