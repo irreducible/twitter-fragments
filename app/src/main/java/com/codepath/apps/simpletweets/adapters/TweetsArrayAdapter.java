@@ -13,6 +13,7 @@ import com.codepath.apps.simpletweets.R;
 import com.codepath.apps.simpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvTimestamp = (TextView) convertView.findViewById(R.id.tvTimestamp);
 
         tvUserName.setText(tweet.getUser().getScreenName());
-        tvBody.setText(Html.fromHtml(tweet.getBody()));
+        tvBody.setText(tweet.getBody());
         tvTimestamp.setText(tweet.getCreatedAt());
 
         ivProfileImage.setImageResource(android.R.color.transparent);
@@ -45,4 +46,5 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
         return convertView;
     }
+
 }
