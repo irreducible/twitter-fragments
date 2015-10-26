@@ -1,8 +1,11 @@
 package com.codepath.apps.simpletweets.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +24,7 @@ import com.codepath.apps.simpletweets.TwitterApplication;
 import com.codepath.apps.simpletweets.TwitterClient;
 import com.codepath.apps.simpletweets.adapters.TweetsArrayAdapter;
 import com.codepath.apps.simpletweets.models.Tweet;
+import com.codepath.apps.simpletweets.models.User;
 import com.codepath.apps.simpletweets.views.EndlessScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -45,6 +49,11 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#55ACEE")));
+
+        if (isNetworkAvailable()) {
+            User.deleteAll(User.class);
+            Tweet.deleteAll(Tweet.class);
+        }
 
         setContentView(R.layout.activity_timeline);
         lvTweets = (ListView) findViewById(R.id.lvTweets);
@@ -90,6 +99,13 @@ public class TimelineActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         ComposeDialog composeDialog = ComposeDialog.newInstance();
         composeDialog.show(fm, "fragment_edit_name");
+    }
+
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
     public void populateTimeline(long since_id, long max_id) {
