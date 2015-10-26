@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,26 +27,28 @@ import org.apache.http.Header;
 import org.json.JSONObject;
 
 
-public class ComposeDialog extends DialogFragment {
+public class ReplyDialog extends DialogFragment {
     private Button btCancel;
     private Button btTweet;
     private TextView tvUser;
     private ImageView ivUser;
-    private TextView etCompose;
+    private EditText etCompose;
     private TextView tvCount;
 
     private TwitterClient client;
     private User self;
 
-    public ComposeDialog() {
+    public ReplyDialog() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static ComposeDialog newInstance() {
-        ComposeDialog frag = new ComposeDialog();
+    public static ReplyDialog newInstance(long inReplyToId, String screenName) {
+        ReplyDialog frag = new ReplyDialog();
         Bundle args = new Bundle();
+        args.putLong("inReplyToId", inReplyToId);
+        args.putString("screenName", screenName);
         frag.setArguments(args);
         return frag;
     }
@@ -71,7 +74,9 @@ public class ComposeDialog extends DialogFragment {
             }
         });
 
-        etCompose = (TextView) view.findViewById(R.id.etCompose);
+        etCompose = (EditText) view.findViewById(R.id.etCompose);
+        etCompose.setText("@" + getArguments().getString("screenName"));
+        etCompose.setSelection(etCompose.getText().length());
 
         tvCount = (TextView) view.findViewById(R.id.tvCount);
 
@@ -104,12 +109,10 @@ public class ComposeDialog extends DialogFragment {
         btTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                client.postTweet(etCompose.getEditableText().toString(), -1, new JsonHttpResponseHandler() {
+                client.postTweet(etCompose.getEditableText().toString(), getArguments().getLong("inReplyToId"), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         dismiss();
-                        ((TimelineActivity)getActivity()).aTweets.clear();
-                        ((TimelineActivity)getActivity()).populateTimeline(TimelineActivity.since_id,Long.MAX_VALUE);
                     }
                 });
             }

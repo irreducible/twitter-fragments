@@ -100,8 +100,8 @@ public class TimelineActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Toast.makeText(TimelineActivity.this, errorResponse.toString(), Toast.LENGTH_LONG);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                aTweets.addAll(Tweet.listAll(Tweet.class));
             }
         });
     }

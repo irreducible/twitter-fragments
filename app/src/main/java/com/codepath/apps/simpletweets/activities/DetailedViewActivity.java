@@ -2,6 +2,7 @@ package com.codepath.apps.simpletweets.activities;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,10 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.simpletweets.R;
+import com.codepath.apps.simpletweets.dialogs.ComposeDialog;
+import com.codepath.apps.simpletweets.dialogs.ReplyDialog;
 import com.codepath.apps.simpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
 
 public class DetailedViewActivity extends AppCompatActivity {
+    private long tweetId;
+    private String screenName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,9 @@ public class DetailedViewActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detailed_view);
         Tweet tweet = (Tweet) getIntent().getSerializableExtra("tweet");
+
+        tweetId = tweet.getUid();
+        screenName = tweet.getUser().getScreenName();
 
         ImageView ivDetailedProfileImage = (ImageView) findViewById(R.id.ivDetailedProfileImage);
         TextView tvDetailedUserName = (TextView) findViewById(R.id.tvDetailedUserName);
@@ -63,5 +71,11 @@ public class DetailedViewActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showReplyDialog(MenuItem item) {
+        FragmentManager fm = getSupportFragmentManager();
+        ReplyDialog replyDialog = ReplyDialog.newInstance(tweetId, screenName);
+        replyDialog.show(fm, "fragment_edit_name");
     }
 }

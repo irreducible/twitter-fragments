@@ -38,7 +38,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvTimestamp = (TextView) convertView.findViewById(R.id.tvTimestamp);
         ImageView ivMedia = (ImageView) convertView.findViewById(R.id.ivMedia);
 
-        tvUserName.setText(tweet.getUser().getScreenName());
+        tvUserName.setText("@" + tweet.getUser().getScreenName());
         tvBody.setText(tweet.getBody());
         tvTimestamp.setText(tweet.getCreatedAt());
 

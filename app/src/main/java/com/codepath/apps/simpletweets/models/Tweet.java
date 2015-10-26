@@ -3,6 +3,7 @@ package com.codepath.apps.simpletweets.models;
 import android.text.format.DateUtils;
 
 import com.codepath.apps.simpletweets.activities.TimelineActivity;
+import com.orm.SugarRecord;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +18,7 @@ import java.util.Locale;
 /**
  * Created by amore on 10/24/15.
  */
-public class Tweet implements Serializable{
+public class Tweet extends SugarRecord<Tweet> implements Serializable {
 
     private String body;
     private long uid;
@@ -79,6 +80,7 @@ public class Tweet implements Serializable{
                 Tweet tweet = fromJSON(jsonArray.getJSONObject(i));
                 if (tweet != null) {
                     tweets.add(tweet);
+                    tweet.save();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

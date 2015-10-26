@@ -1,5 +1,7 @@
 package com.codepath.apps.simpletweets.models;
 
+import com.orm.SugarRecord;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by amore on 10/24/15.
  */
-public class User implements Serializable{
+public class User extends SugarRecord<User> implements Serializable{
     private String name;
     private long uid;
     private String screenName;
