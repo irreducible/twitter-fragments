@@ -34,19 +34,12 @@ The following **bonus** features are implemented:
 * [x] User can see embedded image media within the tweet detail view
 * [x] Compose tweet functionality is build using modal overlay
 
+## Notes
+
+Spent an inordinate amount of time struggling with twitter api (more than 50%) and dealing with the rate limiting. The android pieces were not that challenging comparatively.
+
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
-
-## Notes
-
-Spent an inordinate amount of time struggling with twitter api (more than 50%). The android pieces were not that challenging comparatively.
-
-## Open-source libraries used
-
-- [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
-- [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+![twitter](https://cloud.githubusercontent.com/assets/14814640/10742215/388799aa-7be9-11e5-8af6-8e6ef573209f.gif)
