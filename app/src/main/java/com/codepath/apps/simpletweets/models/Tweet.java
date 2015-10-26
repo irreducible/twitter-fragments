@@ -80,6 +80,7 @@ public class Tweet extends SugarRecord<Tweet> implements Serializable {
                 Tweet tweet = fromJSON(jsonArray.getJSONObject(i));
                 if (tweet != null) {
                     tweets.add(tweet);
+                    tweet.user.save();
                     tweet.save();
                 }
             } catch (JSONException e) {
