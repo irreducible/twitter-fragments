@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#55acee"
     android:padding="5dp">
 
     <Button
@@ -23,39 +24,44 @@
         android:text="Tweet" />
 
     <ImageView
+        android:id="@+id/ivUser"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/ivUser"
-        android:layout_below="@+id/btCancel"
+        android:padding="5dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btCancel" />
 
     <TextView
+        android:id="@+id/tvUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/tvUser"
-        android:layout_alignBottom="@+id/ivUser"
+        android:textColor="#FFF"
+        android:padding="5dp"
+        android:layout_alignTop="@+id/ivUser"
+        android:layout_toEndOf="@+id/ivUser"
         android:layout_toRightOf="@+id/ivUser"
-        android:layout_toEndOf="@+id/ivUser" />
+        android:text="New Text" />
 
     <EditText
+        android:id="@+id/etCompose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etCompose"
-        android:layout_below="@+id/ivUser"
+        android:hint="@string/compose_hint"
+        android:textColor="#FFF"
+        android:layout_alignEnd="@+id/btTweet"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/btTweet"
-        android:layout_alignEnd="@+id/btTweet" />
+        android:layout_below="@+id/ivUser" />
 
     <TextView
+        android:id="@+id/tvCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFF"
+        android:layout_above="@+id/etCompose"
+        android:layout_alignParentRight="true"
         android:text="@string/char_count"
-        android:id="@+id/tvCount"
-        android:layout_above="@+id/ivUser"
-        android:layout_toLeftOf="@+id/btTweet"
-        android:layout_toStartOf="@+id/btTweet" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 </RelativeLayout>

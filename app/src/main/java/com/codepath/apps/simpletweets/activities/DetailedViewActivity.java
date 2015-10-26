@@ -1,5 +1,7 @@
 package com.codepath.apps.simpletweets.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +19,8 @@ public class DetailedViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#55ACEE")));
+
         setContentView(R.layout.activity_detailed_view);
         Tweet tweet = (Tweet) getIntent().getSerializableExtra("tweet");
 
@@ -31,11 +35,11 @@ public class DetailedViewActivity extends AppCompatActivity {
         tvDetailedTimestamp.setText(tweet.getCreatedAt());
 
         ivDetailedProfileImage.setImageResource(android.R.color.transparent);
-        Picasso.with(this).load(tweet.getUser().getProfileImageUrl()).into(ivDetailedProfileImage);
+        Picasso.with(this).load(tweet.getUser().getProfileImageUrl().replace("_normal", "_bigger")).into(ivDetailedProfileImage);
 
         if (tweet.getMediaURL() != null) {
             ivDetailedMedia.setVisibility(View.VISIBLE);
-            Picasso.with(this).load(tweet.getMediaURL()).into(ivDetailedMedia);
+            Picasso.with(this).load(tweet.getMediaURL() + ":large").into(ivDetailedMedia);
         }
     }
 

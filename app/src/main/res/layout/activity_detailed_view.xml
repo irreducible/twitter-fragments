@@ -26,11 +26,11 @@
         android:id="@+id/tvDetailedBody"
         android:autoLink="all"
         android:linksClickable="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDetailedUserName"
-        android:layout_toEndOf="@+id/ivDetailedProfileImage"
-        android:layout_toRightOf="@+id/ivDetailedProfileImage"
+        android:layout_below="@+id/ivDetailedProfileImage"
         android:text="New Text" />
 
     <TextView
@@ -42,12 +42,22 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ivDetailedMedia"
-        android:visibility="invisible"
-        android:layout_below="@+id/tvDetailedBody"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@id/tvDetailedBody"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivDetailedMedia"
+            android:visibility="invisible"
+            android:layout_below="@+id/tvDetailedBody"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </LinearLayout>
+
 </RelativeLayout>

@@ -108,8 +108,8 @@ public class ComposeDialog extends DialogFragment {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         dismiss();
-                        Intent intent = new Intent(getActivity(), TimelineActivity.class);
-                        startActivity(intent);
+                        ((TimelineActivity)getActivity()).aTweets.clear();
+                        ((TimelineActivity)getActivity()).populateTimeline(TimelineActivity.since_id,Long.MAX_VALUE);
                     }
                 });
             }

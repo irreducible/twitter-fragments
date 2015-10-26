@@ -1,6 +1,8 @@
 package com.codepath.apps.simpletweets.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +44,8 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#55ACEE")));
+
         setContentView(R.layout.activity_timeline);
         lvTweets = (ListView) findViewById(R.id.lvTweets);
         tweets = new ArrayList<>();
@@ -88,7 +92,7 @@ public class TimelineActivity extends AppCompatActivity {
         composeDialog.show(fm, "fragment_edit_name");
     }
 
-    private void populateTimeline(long since_id, long max_id) {
+    public void populateTimeline(long since_id, long max_id) {
         client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
