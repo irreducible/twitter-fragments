@@ -26,17 +26,13 @@ The following **optional** features are implemented:
 * [x] User can **pull down to refresh tweets timeline**
 * [ ] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in offline mode.
 * [x] User can tap a tweet to **open a detailed tweet view**
-* [ ] User can **select "reply" from detail view to respond to a tweet**
+* [x] User can **select "reply" from detail view to respond to a tweet**
 * [x] Improve the user interface and theme the app to feel "twitter branded"
 
 The following **bonus** features are implemented:
 
 * [x] User can see embedded image media within the tweet detail view
 * [x] Compose tweet functionality is build using modal overlay
-
-The following **additional** features are implemented:
-
-* [ ] List anything else that you can get done to improve the app functionality!
 
 ## Video Walkthrough 
 
