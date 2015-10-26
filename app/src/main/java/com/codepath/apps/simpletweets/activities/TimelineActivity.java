@@ -6,23 +6,21 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.codepath.apps.simpletweets.dialogs.ComposeDialog;
 import com.codepath.apps.simpletweets.R;
 import com.codepath.apps.simpletweets.TwitterApplication;
 import com.codepath.apps.simpletweets.TwitterClient;
 import com.codepath.apps.simpletweets.adapters.TweetsArrayAdapter;
+import com.codepath.apps.simpletweets.dialogs.ComposeDialog;
 import com.codepath.apps.simpletweets.models.Tweet;
 import com.codepath.apps.simpletweets.models.User;
 import com.codepath.apps.simpletweets.views.EndlessScrollListener;
@@ -35,14 +33,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class TimelineActivity extends AppCompatActivity {
-    private TwitterClient client;
-    private ArrayList<Tweet> tweets;
-    public TweetsArrayAdapter aTweets;
-    private ListView lvTweets;
+    public static final int COUNT_PER_PAGE = 25;
     public static long since_id = 1;
     public static long max_id = Long.MAX_VALUE;
-    public static final int COUNT_PER_PAGE = 25;
-
+    public TweetsArrayAdapter aTweets;
+    private TwitterClient client;
+    private ArrayList<Tweet> tweets;
+    private ListView lvTweets;
     private SwipeRefreshLayout swipeContainer;
 
     @Override

@@ -26,26 +26,6 @@ public class Tweet extends SugarRecord<Tweet> implements Serializable {
     private User user;
     private String mediaURL;
 
-    public String getBody() {
-        return body;
-    }
-
-    public long getUid() {
-        return uid;
-    }
-
-    public String getMediaURL() {
-        return mediaURL;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
     public static Tweet fromJSON(JSONObject jsonObject) {
         Tweet tweet = new Tweet();
         try {
@@ -53,7 +33,7 @@ public class Tweet extends SugarRecord<Tweet> implements Serializable {
             tweet.uid = jsonObject.getLong("id");
             tweet.createdAt = getRelativeTimeAgo(jsonObject.getString("created_at"));
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-            if(jsonObject.has("entities")) {
+            if (jsonObject.has("entities")) {
                 if (jsonObject.getJSONObject("entities").getJSONArray("media").length() > 0) {
                     tweet.mediaURL = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url");
                 }
@@ -124,6 +104,26 @@ public class Tweet extends SugarRecord<Tweet> implements Serializable {
         String[] dateFrags = relativeDate.split(" ");
         String formattedDate = dateFrags[0] + dateFrags[1].charAt(0);
         return formattedDate;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+    public String getMediaURL() {
+        return mediaURL;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
     }
 
 }

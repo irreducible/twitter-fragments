@@ -1,6 +1,5 @@
 package com.codepath.apps.simpletweets.dialogs;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -108,8 +107,8 @@ public class ComposeDialog extends DialogFragment {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         dismiss();
-                        ((TimelineActivity)getActivity()).aTweets.clear();
-                        ((TimelineActivity)getActivity()).populateTimeline(TimelineActivity.since_id,Long.MAX_VALUE);
+                        ((TimelineActivity) getActivity()).aTweets.clear();
+                        ((TimelineActivity) getActivity()).populateTimeline(TimelineActivity.since_id, Long.MAX_VALUE);
                     }
                 });
             }

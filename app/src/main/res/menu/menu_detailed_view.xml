@@ -4,9 +4,9 @@
     tools:context="com.codepath.apps.simpletweets.activities.DetailedViewActivity">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_compose"
         android:icon="@mipmap/ic_compose"
         android:onClick="showReplyDialog"
+        android:orderInCategory="100"
+        android:title="@string/action_compose"
         app:showAsAction="always" />
 </menu>

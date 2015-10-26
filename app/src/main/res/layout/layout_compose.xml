@@ -27,41 +27,41 @@
         android:id="@+id/ivUser"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="5dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/btCancel" />
+        android:layout_below="@+id/btCancel"
+        android:padding="5dp" />
 
     <TextView
         android:id="@+id/tvUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
-        android:padding="5dp"
         android:layout_alignTop="@+id/ivUser"
         android:layout_toEndOf="@+id/ivUser"
         android:layout_toRightOf="@+id/ivUser"
-        android:text="New Text" />
+        android:padding="5dp"
+        android:text="New Text"
+        android:textColor="#FFF" />
 
     <EditText
         android:id="@+id/etCompose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/compose_hint"
-        android:textColor="#FFF"
         android:layout_alignEnd="@+id/btTweet"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/btTweet"
-        android:layout_below="@+id/ivUser" />
+        android:layout_below="@+id/ivUser"
+        android:hint="@string/compose_hint"
+        android:textColor="#FFF" />
 
     <TextView
         android:id="@+id/tvCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
         android:layout_above="@+id/etCompose"
         android:layout_alignParentRight="true"
         android:text="@string/char_count"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFF" />
 </RelativeLayout>
