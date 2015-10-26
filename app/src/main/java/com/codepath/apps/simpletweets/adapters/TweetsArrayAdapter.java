@@ -49,6 +49,9 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             ivMedia.setVisibility(View.VISIBLE);
             Picasso.with(getContext()).load(tweet.getMediaURL()).into(ivMedia);
         }
+        else {
+            ivMedia.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

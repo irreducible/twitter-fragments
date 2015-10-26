@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,13 +24,14 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class TimelineActivity extends AppCompatActivity {
     private TwitterClient client;
     private ArrayList<Tweet> tweets;
-    private TweetsArrayAdapter aTweets;
+    public TweetsArrayAdapter aTweets;
     private ListView lvTweets;
     public static long since_id = 1;
     public static long max_id = Long.MAX_VALUE;
@@ -51,7 +53,8 @@ public class TimelineActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getRecentTweets();
+                aTweets.clear();
+                populateTimeline(1, Long.MAX_VALUE);
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -62,7 +65,7 @@ public class TimelineActivity extends AppCompatActivity {
         lvTweets.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
-                populateTimeline();
+                populateTimeline(1, max_id);
                 return true;
             }
         });
@@ -76,41 +79,28 @@ public class TimelineActivity extends AppCompatActivity {
                 return false;
             }
         });
-        populateTimeline();
+        populateTimeline(1, max_id);
     }
 
     public void showComposeDialog(MenuItem item) {
         FragmentManager fm = getSupportFragmentManager();
-        ComposeDialog editNameDialog = ComposeDialog.newInstance();
-        editNameDialog.show(fm, "fragment_edit_name");
+        ComposeDialog composeDialog = ComposeDialog.newInstance();
+        composeDialog.show(fm, "fragment_edit_name");
     }
 
-    private void populateTimeline() {
-        client.getHomeTimeline(1, max_id, new JsonHttpResponseHandler() {
+    private void populateTimeline(long since_id, long max_id) {
+        client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 aTweets.addAll(Tweet.fromJSONArray(response));
             }
-        });
-    }
-
-    private void getRecentTweets() {
-        client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                for (Tweet tweet: Tweet.fromJSONArray(response)) {
-                    aTweets.insert(tweet, 0);
-                    Toast.makeText(TimelineActivity.this, "Added", Toast.LENGTH_LONG).show();
-                }
-            }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(TimelineActivity.this, "Not Added", Toast.LENGTH_LONG).show();
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Toast.makeText(TimelineActivity.this, errorResponse.toString(), Toast.LENGTH_LONG);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,4 +123,5 @@ public class TimelineActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
