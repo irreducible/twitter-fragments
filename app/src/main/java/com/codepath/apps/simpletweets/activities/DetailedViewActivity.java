@@ -23,7 +23,7 @@ public class DetailedViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#55ACEE")));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3687C5")));
 
         setContentView(R.layout.activity_detailed_view);
         Tweet tweet = (Tweet) getIntent().getSerializableExtra("tweet");

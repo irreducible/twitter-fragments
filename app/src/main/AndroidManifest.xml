@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.codepath.apps.simpletweets"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -22,7 +22,7 @@
         android:icon="@mipmap/ic_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:theme">
+        tools:replace="android:icon,android:theme" >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="RestClient.db" />
@@ -33,7 +33,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,10 +52,14 @@
         </activity>
         <activity
             android:name=".activities.TimelineActivity"
-            android:label="@string/title_activity_timeline"></activity>
+            android:label="@string/title_activity_timeline" />
         <activity
             android:name=".activities.DetailedViewActivity"
-            android:label="@string/title_activity_detailed_view"></activity>
+            android:label="@string/title_activity_detailed_view" />
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
     </application>
 
 </manifest>

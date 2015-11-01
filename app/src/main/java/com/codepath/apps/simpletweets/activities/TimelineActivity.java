@@ -7,116 +7,55 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.simpletweets.R;
+import com.codepath.apps.simpletweets.fragments.HomeTimelineFragment;
+import com.codepath.apps.simpletweets.fragments.MentionsTimelineFragment;
+import com.codepath.apps.simpletweets.fragments.TweetsListFragment;
 import com.codepath.apps.simpletweets.TwitterApplication;
 import com.codepath.apps.simpletweets.TwitterClient;
-import com.codepath.apps.simpletweets.adapters.TweetsArrayAdapter;
 import com.codepath.apps.simpletweets.dialogs.ComposeDialog;
 import com.codepath.apps.simpletweets.models.Tweet;
 import com.codepath.apps.simpletweets.models.User;
-import com.codepath.apps.simpletweets.views.EndlessScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 public class TimelineActivity extends AppCompatActivity {
+
     public static final int COUNT_PER_PAGE = 25;
     public static long since_id = 1;
     public static long max_id = Long.MAX_VALUE;
-    public TweetsArrayAdapter aTweets;
-    private TwitterClient client;
-    private ArrayList<Tweet> tweets;
-    private ListView lvTweets;
-    private SwipeRefreshLayout swipeContainer;
+
+    private TweetsListFragment fragmentTweetsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#55ACEE")));
-
-        if (isNetworkAvailable()) {
-            User.deleteAll(User.class);
-            Tweet.deleteAll(Tweet.class);
-        }
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3687C5")));
         setContentView(R.layout.activity_timeline);
-        lvTweets = (ListView) findViewById(R.id.lvTweets);
-        tweets = new ArrayList<>();
-        aTweets = new TweetsArrayAdapter(this, tweets);
-        lvTweets.setAdapter(aTweets);
-        client = TwitterApplication.getRestClient();
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                aTweets.clear();
-                populateTimeline(1, Long.MAX_VALUE);
-                swipeContainer.setRefreshing(false);
-            }
-        });
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
 
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light);
-
-        lvTweets.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public boolean onLoadMore(int page, int totalItemsCount) {
-                populateTimeline(1, max_id);
-                return true;
-            }
-        });
-
-        lvTweets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(TimelineActivity.this, DetailedViewActivity.class);
-                intent.putExtra("tweet", tweets.get(position));
-                startActivity(intent);
-                return false;
-            }
-        });
-        populateTimeline(1, max_id);
+        PagerSlidingTabStrip pagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        pagerSlidingTabStrip.setViewPager(viewPager);
     }
 
     public void showComposeDialog(MenuItem item) {
         FragmentManager fm = getSupportFragmentManager();
         ComposeDialog composeDialog = ComposeDialog.newInstance();
         composeDialog.show(fm, "fragment_edit_name");
-    }
-
-    private Boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
-
-    public void populateTimeline(long since_id, long max_id) {
-        client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                aTweets.addAll(Tweet.fromJSONArray(response));
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                aTweets.addAll(Tweet.listAll(Tweet.class));
-            }
-        });
     }
 
     @Override
@@ -139,6 +78,43 @@ public class TimelineActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onProfileView(MenuItem item) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public class TweetsPagerAdapter extends FragmentPagerAdapter {
+        final int PAGE_COUNT = 2;
+        private String[] tabTitles = {"Home", "Mentions"};
+
+        public TweetsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return new HomeTimelineFragment();
+            }
+            else if (position == 1) {
+                return new MentionsTimelineFragment();
+            }
+            else {
+                return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return PAGE_COUNT;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
+        }
     }
 
 }

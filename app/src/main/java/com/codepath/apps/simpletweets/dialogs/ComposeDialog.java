@@ -100,19 +100,19 @@ public class ComposeDialog extends DialogFragment {
         });
 
         btTweet = (Button) view.findViewById(R.id.btTweet);
-        btTweet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                client.postTweet(etCompose.getEditableText().toString(), -1, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        dismiss();
-                        ((TimelineActivity) getActivity()).aTweets.clear();
-                        ((TimelineActivity) getActivity()).populateTimeline(TimelineActivity.since_id, Long.MAX_VALUE);
-                    }
-                });
-            }
-        });
+//        btTweet.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                client.postTweet(etCompose.getEditableText().toString(), -1, new JsonHttpResponseHandler() {
+//                    @Override
+//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                        dismiss();
+//                        ((TimelineActivity) getActivity()).aTweets.clear();
+//                        ((TimelineActivity) getActivity()).populateTimeline(TimelineActivity.since_id, Long.MAX_VALUE);
+//                    }
+//                });
+//            }
+//        });
 
         return view;
     }
