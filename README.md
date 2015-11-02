@@ -31,11 +31,13 @@ The following **optional** features are implemented:
 * [x] Improve the user interface and theme the app to feel twitter branded
 * [x] User can **search for tweets matching a particular query** and see results
 
-## Video Walkthrough 
-
-Here's a walkthrough of implemented user stories (ended up making two gifs since I keep forgetting one feature or another in a single take):
-
 
 ## Notes
 
 Too many NullPointerExceptions. A lot of things did not work as explained in the video or guides. I had to read about /experiment with lifecycle methods to implement the features in a different manner. 
+
+## Video Walkthrough 
+
+Here's a walkthrough of implemented user stories (ended up making two gifs since I keep forgetting one feature or another in a single take):
+![twitter-fragments-2](https://cloud.githubusercontent.com/assets/14814640/10896679/451ab990-8170-11e5-97fb-e231f5db110b.gif) ![twitter-fragments-1](https://cloud.githubusercontent.com/assets/14814640/10896678/4519802a-8170-11e5-9d50-37884472fd26.gif)
+
