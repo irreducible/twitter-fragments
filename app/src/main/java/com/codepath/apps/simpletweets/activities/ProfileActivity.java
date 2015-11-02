@@ -1,30 +1,38 @@
 package com.codepath.apps.simpletweets.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.simpletweets.R;
 import com.codepath.apps.simpletweets.TwitterApplication;
 import com.codepath.apps.simpletweets.TwitterClient;
+import com.codepath.apps.simpletweets.adapters.UsersArrayAdapter;
 import com.codepath.apps.simpletweets.fragments.UserTimelineFragment;
 import com.codepath.apps.simpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private TwitterClient client;
     private User user;
+    private String screenName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +40,24 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3687C5")));
 
-        client = TwitterApplication.getRestClient();
+        user = (User) getIntent().getSerializableExtra("user");
 
-        client.getUserInfo(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                user = User.fromJSON(response);
-                getSupportActionBar().setTitle("@" + user.getScreenName());
-                populateProfileHeader(user);
-            }
-        });
+        if (user == null) {
+            client = TwitterApplication.getRestClient();
 
-        String screenName = getIntent().getStringExtra("screenName");
+            client.getUserInfo(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    user = User.fromJSON(response);
+                    getSupportActionBar().setTitle("@" + user.getScreenName());
+                    populateProfileHeader(user);
+                }
+            });
+        }
+        else {
+            populateProfileHeader(user);
+            screenName = user.getScreenName();
+        }
 
         if (savedInstanceState == null) {
             UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
@@ -64,8 +78,28 @@ public class ProfileActivity extends AppCompatActivity {
         TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
         tvFollowers.setText("" + user.getFollowersCount() + " Followers");
 
+        tvFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, UserListActivity.class);
+                intent.putExtra("screenName", screenName);
+                intent.putExtra("list", "followers");
+                startActivity(intent);
+            }
+        });
+
         TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
         tvFollowing.setText("" + user.getFriendsCount() + " Following");
+
+        tvFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, UserListActivity.class);
+                intent.putExtra("screenName", screenName);
+                intent.putExtra("list", "following");
+                startActivity(intent);
+            }
+        });
 
         ImageView ivUserProfileImage = (ImageView) findViewById(R.id.ivUserProfileImage);
         Picasso.with(this).load(user.getProfileImageUrl()).into(ivUserProfileImage);

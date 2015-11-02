@@ -1,14 +1,18 @@
 package com.codepath.apps.simpletweets.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.simpletweets.R;
+import com.codepath.apps.simpletweets.activities.ProfileActivity;
+import com.codepath.apps.simpletweets.activities.TimelineActivity;
 import com.codepath.apps.simpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
 
@@ -25,7 +29,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Tweet tweet = getItem(position);
+        final Tweet tweet = getItem(position);
 
         ViewHolder viewHolder;
 
@@ -49,6 +53,16 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
         viewHolder.ivProfileImage.setImageResource(android.R.color.transparent);
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(viewHolder.ivProfileImage);
+
+        viewHolder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                intent.putExtra("screenName", tweet.getUser().getScreenName());
+                intent.putExtra("user", tweet.getUser());
+                v.getContext().startActivity(intent);
+            }
+        });
 
         if (tweet.getMediaURL() != null) {
             viewHolder.ivMedia.setVisibility(View.VISIBLE);

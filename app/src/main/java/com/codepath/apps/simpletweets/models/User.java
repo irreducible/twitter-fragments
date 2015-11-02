@@ -2,10 +2,12 @@ package com.codepath.apps.simpletweets.models;
 
 import com.orm.SugarRecord;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by amore on 10/24/15.
@@ -33,6 +35,22 @@ public class User extends SugarRecord<User> implements Serializable {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public static ArrayList<User> fromJSONArray(JSONArray jsonArray) {
+        ArrayList<User> users = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                User user = fromJSON(jsonArray.getJSONObject(i));
+                if (user != null) {
+                    users.add(user);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return users;
     }
 
     public String getName() {

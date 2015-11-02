@@ -70,23 +70,6 @@ public class Tweet extends SugarRecord<Tweet> implements Serializable {
         return tweets;
     }
 
-    public static ArrayList<String> urlsFromJSONArray(JSONArray jsonArray) {
-        ArrayList<String> urls = new ArrayList<>();
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                JSONObject media = jsonArray.getJSONObject(i);
-                if (media.getString("type") == "photo") {
-                    String url = media.getString("media_url");
-                    urls.add(url);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return urls;
-    }
-
     public static String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
