@@ -36,6 +36,12 @@ public class SearchResultsFragment extends TweetsListFragment {
         return searchResultsFragment;
     }
 
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        String query = getArguments().getString("query");
+//    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -52,6 +58,7 @@ public class SearchResultsFragment extends TweetsListFragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     addAll(Tweet.fromJSONArray(response.getJSONArray("statuses")));
+                    ((SearchResultsActivity) getActivity()).stopAnim();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

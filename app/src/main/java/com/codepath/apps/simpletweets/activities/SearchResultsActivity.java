@@ -4,10 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.codepath.apps.simpletweets.R;
@@ -33,9 +38,17 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search_results, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search_results, menu);
         return true;
+    }
+
+    public void startAnim(){
+        findViewById(R.id.avloadingIndicatorView).setVisibility(View.VISIBLE);
+    }
+
+    public void stopAnim(){
+        findViewById(R.id.avloadingIndicatorView).setVisibility(View.INVISIBLE);
     }
 
     @Override

@@ -116,7 +116,7 @@ public class TwitterClient extends OAuthBaseClient {
     public void getSearchResults(String query, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("search/tweets.json");
         RequestParams params = new RequestParams();
-        params.put("count", TimelineActivity.COUNT_PER_PAGE);
+        params.put("count", 10*TimelineActivity.COUNT_PER_PAGE);
         params.put("q", query);
         getClient().get(apiUrl, params, handler);
     }
