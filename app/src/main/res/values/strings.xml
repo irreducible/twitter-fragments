@@ -14,5 +14,6 @@
     <string name="action_profile">Profile</string>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_user_list">UserListActivity</string>
+    <string name="title_activity_search_results">SearchResultsActivity</string>
 
 </resources>

@@ -64,6 +64,10 @@
             android:name=".activities.UserListActivity"
             android:label="@string/title_activity_user_list" >
         </activity>
+        <activity
+            android:name=".activities.SearchResultsActivity"
+            android:label="@string/title_activity_search_results" >
+        </activity>
     </application>
 
 </manifest>
