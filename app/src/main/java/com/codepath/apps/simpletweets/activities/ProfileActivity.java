@@ -39,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3687C5")));
+        getSupportActionBar().setTitle("Profile");
 
         user = (User) getIntent().getSerializableExtra("user");
 
