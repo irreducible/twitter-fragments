@@ -8,17 +8,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.simpletweets.R;
+import com.codepath.apps.simpletweets.TwitterApplication;
+import com.codepath.apps.simpletweets.TwitterClient;
 import com.codepath.apps.simpletweets.dialogs.ReplyDialog;
 import com.codepath.apps.simpletweets.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
+import org.scribe.builder.api.TwitterApi;
 
 public class DetailedViewActivity extends AppCompatActivity {
     private long tweetId;
     private String screenName;
+
+    private TwitterClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,43 @@ public class DetailedViewActivity extends AppCompatActivity {
         TextView tvDetailedBody = (TextView) findViewById(R.id.tvDetailedBody);
         TextView tvDetailedTimestamp = (TextView) findViewById(R.id.tvDetailedTimestamp);
         ImageView ivDetailedMedia = (ImageView) findViewById(R.id.ivDetailedMedia);
+        CheckBox cbFavorite = (CheckBox) findViewById(R.id.cbFavorite);
+        Button btRetweet = (Button) findViewById(R.id.btRetweet);
+
+        client = TwitterApplication.getRestClient();
+        cbFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    client.favoriteTweet(tweetId, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Toast.makeText(getBaseContext(), "Tweet Favorited", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else {
+                    client.unfavoriteTweet(tweetId, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Toast.makeText(getBaseContext(), "Tweet Unfavorited", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+
+        btRetweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                client.reTweet(tweetId, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        Toast.makeText(getBaseContext(), "Retweeted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         tvDetailedUserName.setText(tweet.getUser().getScreenName());
         tvDetailedBody.setText(tweet.getBody());

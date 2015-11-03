@@ -41,6 +41,12 @@ public class UserListActivity extends AppCompatActivity {
         lvUsers = (ListView) findViewById(R.id.lvUsers);
 
         if (list.equals("followers")) {
+            if (screenName == null) {
+                getSupportActionBar().setTitle("Followers");
+            }
+            else {
+                getSupportActionBar().setTitle("@" + screenName + ": Followers");
+            }
             client = TwitterApplication.getRestClient();
             client.getUserFollowers(screenName, new JsonHttpResponseHandler() {
                 @Override
@@ -58,6 +64,12 @@ public class UserListActivity extends AppCompatActivity {
             });
         }
         else if (list.equals("following")) {
+            if (screenName == null) {
+                getSupportActionBar().setTitle("Following");
+            }
+            else {
+                getSupportActionBar().setTitle("@" + screenName + ": Following");
+            }
             client = TwitterApplication.getRestClient();
             client.getUserFriends(screenName, new JsonHttpResponseHandler() {
                 @Override

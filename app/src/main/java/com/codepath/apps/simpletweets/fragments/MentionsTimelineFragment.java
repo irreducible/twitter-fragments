@@ -5,9 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.codepath.apps.simpletweets.TwitterApplication;
 import com.codepath.apps.simpletweets.TwitterClient;
-import com.codepath.apps.simpletweets.activities.TimelineActivity;
 import com.codepath.apps.simpletweets.models.Tweet;
-import com.codepath.apps.simpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;

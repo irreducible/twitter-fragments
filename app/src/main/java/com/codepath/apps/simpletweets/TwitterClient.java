@@ -82,6 +82,28 @@ public class TwitterClient extends OAuthBaseClient {
         getClient().post(apiUrl, params, handler);
     }
 
+    public void favoriteTweet(long tweetId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("favorites/create.json");
+        RequestParams params = new RequestParams();
+        params.put("id", tweetId);
+        getClient().post(apiUrl, params, handler);
+    }
+
+    public void unfavoriteTweet(long tweetId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("favorites/destroy.json");
+        RequestParams params = new RequestParams();
+        params.put("id", tweetId);
+        getClient().post(apiUrl, params, handler);
+    }
+
+    public void reTweet(long tweetId, AsyncHttpResponseHandler handler) {
+        String url = "statuses/retweet/" + tweetId + ".json";
+        String apiUrl = getApiUrl(url);
+        RequestParams params = new RequestParams();
+//        params.put("id", tweetId);
+        getClient().post(apiUrl, params, handler);
+    }
+
     public void getMentionsTimeline(AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("statuses/mentions_timeline.json");
         RequestParams params = new RequestParams();
@@ -116,7 +138,7 @@ public class TwitterClient extends OAuthBaseClient {
     public void getSearchResults(String query, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("search/tweets.json");
         RequestParams params = new RequestParams();
-        params.put("count", 10*TimelineActivity.COUNT_PER_PAGE);
+        params.put("count", TimelineActivity.COUNT_PER_PAGE);
         params.put("q", query);
         getClient().get(apiUrl, params, handler);
     }
