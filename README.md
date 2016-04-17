@@ -32,10 +32,6 @@ The following **optional** features are implemented:
 * [x] User can **search for tweets matching a particular query** and see results
 
 
-## Notes
-
-Too many NullPointerExceptions. A lot of things did not work as explained in the video or guides. I had to read about /experiment with lifecycle methods to implement the features in a different manner. 
-
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories (ended up making two gifs since I keep forgetting one feature or another in a single take):
